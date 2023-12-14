@@ -9,4 +9,4 @@ Make sure you have Python version 3.10.6 installed on your computer. <br>
 `git clone https://github.com/KidiXDev/aplikasi-pendataan-barang.git`
 
 ## Status
-> WORK ON PROGRES!
+> WORK ON PROGRESS!
