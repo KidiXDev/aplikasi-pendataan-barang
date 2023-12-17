@@ -1,11 +1,13 @@
 
 from pathlib import Path
 
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk
+from view_models import main_menu_view_models as mainMenuVM
 
 class MainMenu:
     def __init__(self):
+        self.mainMenuViewModels = mainMenuVM.MainMenuViewModels()
+        
         OUTPUT_PATH = Path(__file__).parent
         ASSETS_PATH = OUTPUT_PATH / Path(r"D:\CODE\Python\School\DASPRO GUI\FIGMA\page 2\build\assets\frame1")
 
@@ -14,15 +16,14 @@ class MainMenu:
             return ASSETS_PATH / Path(path)
 
 
-        window = Tk()
+        self.window = Tk()
 
-        window.title("Aplikasi Pendataan")
-        window.geometry("1280x720")
-        window.configure(bg = "#282727")
+        self.window.title("Aplikasi Pendataan")
+        self.window.geometry("1280x720")
+        self.window.configure(bg = "#282727")
 
-
-        canvas = Canvas(
-            window,
+        self.canvas = Canvas(
+            self.window,
             bg = "#282727",
             height = 720,
             width = 1280,
@@ -31,16 +32,31 @@ class MainMenu:
             relief = "ridge"
         )
 
-        canvas.place(x = 0, y = 0)
-        canvas.create_rectangle(
+        self.canvas.place(x = 0, y = 0)
+        self.canvas.create_rectangle(
             22.0,
             117.0,
             782.0,
             703.0,
             fill="#D9D9D9",
             outline="")
+        
+        # Create Table
+        columns = ("ID Barang", "Nama Barang", "Stok", "Harga")
+        self.tree = ttk.Treeview(self.canvas, columns=columns, show="headings")
 
-        canvas.create_text(
+        # Set column headings
+        for col in columns:
+            self.tree.heading(col, text=col)
+            self.tree.column(col, width=150)  # Adjust the width as needed
+
+        # Insert sample data (you can replace this with your actual data)
+        # TODO: Implement read items from database
+
+        # Place the table at the specified location
+        self.tree.place(x=22, y=117, width=760, height=586)
+
+        self.canvas.create_text(
             22.0,
             25.0,
             anchor="nw",
@@ -49,7 +65,7 @@ class MainMenu:
             font=("Rubik SemiBold", 40 * -1)
         )
 
-        canvas.create_rectangle(
+        self.canvas.create_rectangle(
             22.0,
             76.0,
             265.0, 
@@ -57,7 +73,7 @@ class MainMenu:
             fill="#D9D9D9",
             outline="")
 
-        canvas.create_rectangle(
+        self.canvas.create_rectangle(
             791.0,
             575.0,
             1268.0,
@@ -65,7 +81,7 @@ class MainMenu:
             fill="#282828",
             outline="")
 
-        canvas.create_rectangle(
+        self.canvas.create_rectangle(
             799.0,
             584.0,
             1258.0,
@@ -73,7 +89,7 @@ class MainMenu:
             fill="#838383",
             outline="")
 
-        canvas.create_text(
+        self.canvas.create_text(
             858.0,
             604.0,
             anchor="nw",
@@ -82,7 +98,7 @@ class MainMenu:
             font=("Rubik SemiBold", 16 * -1)
         )
 
-        canvas.create_text(
+        self.canvas.create_text(
             818.0,
             634.0,
             anchor="nw",
@@ -91,7 +107,7 @@ class MainMenu:
             font=("Rubik SemiBold", 16 * -1)
         )
 
-        canvas.create_text(
+        self.canvas.create_text(
             818.0,
             664.0,
             anchor="nw",
@@ -148,7 +164,7 @@ class MainMenu:
             height=54.0
         )
 
-        canvas.create_rectangle(
+        self.canvas.create_rectangle(
             791.0,
             111.0,
             1268.0,
@@ -156,7 +172,7 @@ class MainMenu:
             fill="#282828",
             outline="")
 
-        canvas.create_rectangle(
+        self.canvas.create_rectangle(
             799.0,
             117.0,
             1258.0,
@@ -166,7 +182,7 @@ class MainMenu:
 
         entry_image_1 = PhotoImage(
             file=relative_to_assets("entry_1.png"))
-        entry_bg_1 = canvas.create_image(
+        entry_bg_1 = self.canvas.create_image(
             1082.0,
             179.0,
             image=entry_image_1
@@ -184,7 +200,7 @@ class MainMenu:
             height=22.0
         )
 
-        canvas.create_text(
+        self.canvas.create_text(
             812.0,
             171.0,
             anchor="nw",
@@ -195,7 +211,7 @@ class MainMenu:
 
         entry_image_2 = PhotoImage(
             file=relative_to_assets("entry_2.png"))
-        entry_bg_2 = canvas.create_image(
+        entry_bg_2 = self.canvas.create_image(
             1082.0,
             216.0,
             image=entry_image_2
@@ -215,7 +231,7 @@ class MainMenu:
 
         entry_image_3 = PhotoImage(
             file=relative_to_assets("entry_3.png"))
-        entry_bg_3 = canvas.create_image(
+        entry_bg_3 = self.canvas.create_image(
             1082.0,
             253.0,
             image=entry_image_3
@@ -235,7 +251,7 @@ class MainMenu:
 
         entry_image_4 = PhotoImage(
             file=relative_to_assets("entry_4.png"))
-        entry_bg_4 = canvas.create_image(
+        entry_bg_4 = self.canvas.create_image(
             1101.0,
             614.0,
             image=entry_image_4
@@ -255,7 +271,7 @@ class MainMenu:
 
         entry_image_5 = PhotoImage(
             file=relative_to_assets("entry_5.png"))
-        entry_bg_5 = canvas.create_image(
+        entry_bg_5 = self.canvas.create_image(
             1101.0,
             644.0,
             image=entry_image_5
@@ -275,7 +291,7 @@ class MainMenu:
 
         entry_image_6 = PhotoImage(
             file=relative_to_assets("entry_6.png"))
-        entry_bg_6 = canvas.create_image(
+        entry_bg_6 = self.canvas.create_image(
             1101.0,
             674.0,
             image=entry_image_6
@@ -293,7 +309,7 @@ class MainMenu:
             height=22.0
         )
 
-        canvas.create_text(
+        self.canvas.create_text(
             872.0,
             208.0,
             anchor="nw",
@@ -304,7 +320,7 @@ class MainMenu:
 
         entry_image_7 = PhotoImage(
             file=relative_to_assets("entry_7.png"))
-        entry_bg_7 = canvas.create_image(
+        entry_bg_7 = self.canvas.create_image(
             1082.0,
             142.0,
             image=entry_image_7
@@ -322,7 +338,7 @@ class MainMenu:
             height=22.0
         )
 
-        canvas.create_text(
+        self.canvas.create_text(
             838.0,
             134.0,
             anchor="nw",
@@ -331,7 +347,7 @@ class MainMenu:
             font=("Rubik SemiBold", 14 * -1)
         )
 
-        canvas.create_text(
+        self.canvas.create_text(
             863.0,
             245.0,
             anchor="nw",
@@ -339,5 +355,5 @@ class MainMenu:
             fill="#FFFFFF",
             font=("Rubik SemiBold", 14 * -1)
         )
-        window.resizable(False, False)
-        window.mainloop()
+        self.window.resizable(False, False)
+        self.window.mainloop()
