@@ -52,7 +52,7 @@ class MainMenu:
         canvas.create_rectangle(
             22.0,
             76.0,
-            265.0,
+            265.0, 
             83.0,
             fill="#D9D9D9",
             outline="")
