@@ -1,6 +1,7 @@
 import hashlib
 import mysql.connector
 from models import config
+from tkinter import messagebox
 
 class LoginFormViewModel:
     def __init__(self):
@@ -13,7 +14,7 @@ class LoginFormViewModel:
 
         return hashed_string
 
-    def loginAction(self, username, password):
+    def loginAction(self, username, password, ins):
         self.dbc = config.dbConfig.db.cursor()
         
         encrypted_password = self.md5_hash_string(password)
@@ -26,7 +27,9 @@ class LoginFormViewModel:
 
             if result:
                 print("Login successful")
+                ins.loadMainMenu()
             else:
+                messagebox.showinfo("Error", "Invalid username or password")
                 print("Login failed")
         except mysql.connector.Error as err:
             print(f"Error: {err}")

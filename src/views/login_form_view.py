@@ -1,6 +1,7 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from view_models import login_form_view_models as lvm
+from views import main_menu_view as mainMenu
 
 class LoginForm:
     def __init__(self):
@@ -14,15 +15,14 @@ class LoginForm:
             return ASSETS_PATH / Path(path)
 
 
-        window = Tk()
+        self.window = Tk()
 
-        window.title = "Aplikasi Pendataan"
-        window.geometry("1280x720")
-        window.configure(bg = "#282727")
-
+        self.window.title("Aplikasi Pendataan")
+        self.window.geometry("1280x720")
+        self.window.configure(bg = "#282727")
 
         canvas = Canvas(
-            window,
+            self.window,
             bg = "#282727",
             height = 720,
             width = 1280,
@@ -38,7 +38,7 @@ class LoginForm:
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.viewModel.loginAction(entry_1.get(), entry_2.get()),
+            command=lambda: self.viewModel.loginAction(entry_1.get(), entry_2.get(), self),
             relief="flat"
         )
         button_1.place(
@@ -149,5 +149,9 @@ class LoginForm:
             350.0,
             image=image_image_1
         )
-        window.resizable(False, False)
-        window.mainloop()
+        self.window.resizable(False, False)
+        self.window.mainloop()
+        
+    def loadMainMenu(self):
+        self.window.destroy()
+        mainMenuUI = mainMenu.MainMenu()
