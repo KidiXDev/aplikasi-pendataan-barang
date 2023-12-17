@@ -32,6 +32,6 @@ class LoginFormViewModel:
                 messagebox.showinfo("Error", "Invalid username or password")
                 print("Login failed")
         except mysql.connector.Error as err:
-            print(f"Error: {err}")
+            print(f"Error: {err}") 
         finally:
             self.dbc.close()
