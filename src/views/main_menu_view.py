@@ -9,7 +9,7 @@ class MainMenu:
         self.mainMenuViewModels = mainMenuVM.MainMenuViewModels()
         
         OUTPUT_PATH = Path(__file__).parent
-        ASSETS_PATH = OUTPUT_PATH / Path(r"D:\CODE\Python\School\DASPRO GUI\FIGMA\page 2\build\assets\frame1")
+        ASSETS_PATH = OUTPUT_PATH / Path(r"..\assets\frame1")
 
 
         def relative_to_assets(path: str) -> Path:
@@ -42,7 +42,7 @@ class MainMenu:
             outline="")
         
         # Create Table
-        columns = ("ID Barang", "Nama Barang", "Stok", "Harga")
+        columns = ("ID Barang", "Nama Barang", "Harga", "Stok")
         self.tree = ttk.Treeview(self.canvas, columns=columns, show="headings")
 
         # Set column headings
@@ -52,6 +52,7 @@ class MainMenu:
 
         # Insert sample data (you can replace this with your actual data)
         # TODO: Implement read items from database
+        self.mainMenuViewModels.refresh_table(self.tree)
 
         # Place the table at the specified location
         self.tree.place(x=22, y=117, width=760, height=586)
@@ -116,48 +117,48 @@ class MainMenu:
             font=("Rubik SemiBold", 16 * -1)
         )
 
-        button_image_1 = PhotoImage(
+        btnDeleteImg = PhotoImage(
             file=relative_to_assets("button_1.png"))
-        button_1 = Button(
-            image=button_image_1,
+        btnDelete = Button(
+            image=btnDeleteImg,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=lambda: self.mainMenuViewModels.delete_data(self.tree),
             relief="flat"
         )
-        button_1.place(
+        btnDelete.place(
             x=976.0,
             y=288.0,
             width=106.0,
             height=54.0
         )
 
-        button_image_2 = PhotoImage(
+        btnAddImage = PhotoImage(
             file=relative_to_assets("button_2.png"))
-        button_2 = Button(
-            image=button_image_2,
+        btnAdd = Button(
+            image=btnAddImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: self.mainMenuViewModels.insert_data(self.tree, tfIdBarang.get(), tfNamaBarang.get(), tfHargaBarang.get(), tfStokBarang.get()),
             relief="flat"
         )
-        button_2.place(
+        btnAdd.place(
             x=855.0,
             y=288.0,
             width=108.0,
             height=57.0
         )
 
-        button_image_3 = PhotoImage(
+        btnEditImage = PhotoImage(
             file=relative_to_assets("button_3.png"))
-        button_3 = Button(
-            image=button_image_3,
+        btbEdit = Button(
+            image=btnEditImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=lambda: self.mainMenuViewModels.update_data(self.tree, tfIdBarang.get(), tfNamaBarang.get(), tfHargaBarang.get(), tfStokBarang.get()),
             relief="flat"
         )
-        button_3.place(
+        btbEdit.place(
             x=1095.0,
             y=288.0,
             width=106.0,
@@ -180,20 +181,20 @@ class MainMenu:
             fill="#838383",
             outline="")
 
-        entry_image_1 = PhotoImage(
+        tfNamaBarangImage = PhotoImage(
             file=relative_to_assets("entry_1.png"))
         entry_bg_1 = self.canvas.create_image(
             1082.0,
             179.0,
-            image=entry_image_1
+            image=tfNamaBarangImage
         )
-        entry_1 = Text(
+        tfNamaBarang = Entry(
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
             highlightthickness=0
         )
-        entry_1.place(
+        tfNamaBarang.place(
             x=919.0,
             y=167.0,
             width=326.0,
@@ -209,40 +210,40 @@ class MainMenu:
             font=("Rubik SemiBold", 14 * -1)
         )
 
-        entry_image_2 = PhotoImage(
+        tfStokBarangImage = PhotoImage(
             file=relative_to_assets("entry_2.png"))
         entry_bg_2 = self.canvas.create_image(
             1082.0,
             216.0,
-            image=entry_image_2
+            image=tfStokBarangImage
         )
-        entry_2 = Text(
+        tfStokBarang = Entry(
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
             highlightthickness=0
         )
-        entry_2.place(
+        tfStokBarang.place(
             x=919.0,
             y=204.0,
             width=326.0,
             height=22.0
         )
 
-        entry_image_3 = PhotoImage(
+        tfHargaBarangImage = PhotoImage(
             file=relative_to_assets("entry_3.png"))
         entry_bg_3 = self.canvas.create_image(
             1082.0,
             253.0,
-            image=entry_image_3
+            image=tfHargaBarangImage
         )
-        entry_3 = Text(
+        tfHargaBarang = Entry(
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
             highlightthickness=0
         )
-        entry_3.place(
+        tfHargaBarang.place(
             x=919.0,
             y=241.0,
             width=326.0,
@@ -256,7 +257,7 @@ class MainMenu:
             614.0,
             image=entry_image_4
         )
-        entry_4 = Text(
+        entry_4 = Entry(
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
@@ -318,20 +319,20 @@ class MainMenu:
             font=("Rubik SemiBold", 14 * -1)
         )
 
-        entry_image_7 = PhotoImage(
+        tfIdBarangImage = PhotoImage(
             file=relative_to_assets("entry_7.png"))
         entry_bg_7 = self.canvas.create_image(
             1082.0,
             142.0,
-            image=entry_image_7
+            image=tfIdBarangImage
         )
-        entry_7 = Text(
+        tfIdBarang = Entry(
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
             highlightthickness=0
         )
-        entry_7.place(
+        tfIdBarang.place(
             x=919.0,
             y=130.0,
             width=326.0,
@@ -355,5 +356,8 @@ class MainMenu:
             fill="#FFFFFF",
             font=("Rubik SemiBold", 14 * -1)
         )
+        
+        
+        self.tree.bind("<Double-1>", lambda event: self.mainMenuViewModels.tree_on_double_click(self.tree, tfIdBarang, tfNamaBarang, tfHargaBarang, tfStokBarang))
         self.window.resizable(False, False)
         self.window.mainloop()
