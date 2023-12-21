@@ -1,7 +1,7 @@
 
 from pathlib import Path
 
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, StringVar
 from view_models import main_menu_view_models as mainMenuVM
 
 class MainMenu:
@@ -256,62 +256,72 @@ class MainMenu:
         binder_cmd = (self.window.register(lambda P: self.validate_price_input(P, tfHargaBarang)), '%P')
         tfHargaBarang.config(validatecommand=binder_cmd)
 
-        entry_image_4 = PhotoImage(
+        totalBarangVar = StringVar()
+        tfTotalBarangImage = PhotoImage(
             file=relative_to_assets("entry_4.png"))
         entry_bg_4 = self.canvas.create_image(
             1101.0,
             614.0,
-            image=entry_image_4
+            image=tfTotalBarangImage
         )
-        entry_4 = Entry(
+        tfTotalBarang = Entry(
             bd=0,
+            textvariable=totalBarangVar,
             bg="#D9D9D9",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Rubik", 14),
+            state='readonly',
         )
-        entry_4.place(
+        tfTotalBarang.place(
             x=972.0,
             y=602.0,
             width=258.0,
             height=22.0
         )
 
-        entry_image_5 = PhotoImage(
+        totalStokVar = StringVar()
+        tfTotalStokImage = PhotoImage(
             file=relative_to_assets("entry_5.png"))
         entry_bg_5 = self.canvas.create_image(
             1101.0,
             644.0,
-            image=entry_image_5
+            image=tfTotalStokImage
         )
-        entry_5 = Entry(
+        tfTotalStok = Entry(
             bd=0,
+            textvariable=totalStokVar,
             bg="#D9D9D9",
             fg="#000716",
             highlightthickness=0,
             font=("Rubik", 14),
+            state='readonly'
         )
-        entry_5.place(
+        tfTotalStok.place(
             x=972.0,
             y=632.0,
             width=258.0,
             height=22.0
         )
 
-        entry_image_6 = PhotoImage(
+        lastUpdate = StringVar()
+        tfLastUpdateImage = PhotoImage(
             file=relative_to_assets("entry_6.png"))
         entry_bg_6 = self.canvas.create_image(
             1101.0,
             674.0,
-            image=entry_image_6
+            image=tfLastUpdateImage
         )
-        entry_6 = Entry(
+        tfLastUpdate = Entry(
             bd=0,
+            textvariable=lastUpdate,
             bg="#D9D9D9",
             fg="#000716",
             highlightthickness=0,
             font=("Rubik", 14),
+            state='readonly'
         )
-        entry_6.place(
+        tfLastUpdate.place(
             x=972.0,
             y=662.0,
             width=258.0,
@@ -368,6 +378,9 @@ class MainMenu:
         
         
         self.tree.bind("<Double-1>", lambda event: self.mainMenuViewModels.tree_on_double_click(self.tree, tfIdBarang, tfNamaBarang, tfHargaBarang, tfStokBarang))
+        
+        self.mainMenuViewModels.init_update_status_entry([totalBarangVar, totalStokVar, lastUpdate])
+        
         self.window.resizable(False, False)
         self.window.mainloop()
         
