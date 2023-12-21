@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, StringVar
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage, ttk, StringVar
 from view_models import main_menu_view_models as mainMenuVM
 
 class MainMenu:
