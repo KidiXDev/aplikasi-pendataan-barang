@@ -1,24 +1,16 @@
-import hashlib
 import mysql.connector
-import sys
 from models import config
 from tkinter import messagebox
+from str_basic_encryption import StrEncryption
 
 class LoginFormViewModel:
     def __init__(self):
         self.db = config.dbConfig.db()
         self.dbc = self.db.cursor()
-            
-    
-    def md5_hash_string(self, password):
-        md5_hash = hashlib.md5()
-        md5_hash.update(password.encode('utf-8'))
-        hashed_string = md5_hash.hexdigest()
 
-        return hashed_string
-
-    def loginAction(self, username, password, ins):
-        encrypted_password = self.md5_hash_string(password)
+    def loginAction(self, username, password, menu):
+        encryptor = StrEncryption()
+        encrypted_password = encryptor.str2md5(password)
 
         query = "SELECT * FROM account WHERE username = %s AND password = %s"
 
@@ -28,7 +20,7 @@ class LoginFormViewModel:
 
             if result:
                 print("Login successful")
-                ins.loadMainMenu()
+                menu.loadMainMenu()
             else:
                 messagebox.showinfo("Error", "Invalid username or password")
                 print("Login failed")
