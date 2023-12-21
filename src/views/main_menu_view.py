@@ -139,7 +139,7 @@ class MainMenu:
             image=btnAddImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.mainMenuViewModels.insert_data(self.tree, tfIdBarang.get(), tfNamaBarang.get(), tfHargaBarang.get(), tfStokBarang.get()),
+            command=lambda: (self.mainMenuViewModels.insert_data(self.tree, tfIdBarang.get(), tfNamaBarang.get(), tfHargaBarang.get(), tfStokBarang.get()), self.mainMenuViewModels.reset_entry(tfIdBarang, tfNamaBarang,tfHargaBarang, tfStokBarang)),
             relief="flat"
         )
         btnAdd.place(
@@ -155,7 +155,7 @@ class MainMenu:
             image=btnEditImage,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.mainMenuViewModels.update_data(self.tree, tfIdBarang.get(), tfNamaBarang.get(), tfHargaBarang.get(), tfStokBarang.get()),
+            command=lambda: (self.mainMenuViewModels.update_data(self.tree, tfIdBarang.get(), tfNamaBarang.get(), tfHargaBarang.get(), tfStokBarang.get()), self.mainMenuViewModels.reset_entry(tfIdBarang, tfNamaBarang,tfHargaBarang, tfStokBarang)),
             relief="flat"
         )
         btbEdit.place(
@@ -192,7 +192,8 @@ class MainMenu:
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Rubik", 14),
         )
         tfNamaBarang.place(
             x=919.0,
@@ -221,7 +222,8 @@ class MainMenu:
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Rubik", 14),
         )
         tfStokBarang.place(
             x=919.0,
@@ -241,7 +243,8 @@ class MainMenu:
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Rubik", 14),
         )
         tfHargaBarang.place(
             x=919.0,
@@ -249,6 +252,9 @@ class MainMenu:
             width=326.0,
             height=22.0
         )
+        
+        binder_cmd = (self.window.register(lambda P: self.validate_price_input(P, tfHargaBarang)), '%P')
+        tfHargaBarang.config(validatecommand=binder_cmd)
 
         entry_image_4 = PhotoImage(
             file=relative_to_assets("entry_4.png"))
@@ -277,11 +283,12 @@ class MainMenu:
             644.0,
             image=entry_image_5
         )
-        entry_5 = Text(
+        entry_5 = Entry(
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Rubik", 14),
         )
         entry_5.place(
             x=972.0,
@@ -297,11 +304,12 @@ class MainMenu:
             674.0,
             image=entry_image_6
         )
-        entry_6 = Text(
+        entry_6 = Entry(
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Rubik", 14),
         )
         entry_6.place(
             x=972.0,
@@ -330,7 +338,8 @@ class MainMenu:
             bd=0,
             bg="#D9D9D9",
             fg="#000716",
-            highlightthickness=0
+            highlightthickness=0,
+            font=("Rubik", 14),
         )
         tfIdBarang.place(
             x=919.0,
@@ -361,3 +370,14 @@ class MainMenu:
         self.tree.bind("<Double-1>", lambda event: self.mainMenuViewModels.tree_on_double_click(self.tree, tfIdBarang, tfNamaBarang, tfHargaBarang, tfStokBarang))
         self.window.resizable(False, False)
         self.window.mainloop()
+        
+    def numeric_checker(self, char):
+        # Fungsi ini memeriksa apakah karakter yang dimasukkan adalah digit
+        return char.isdigit()
+
+    def validate_price_input(self, char, entry):
+        # Fungsi ini akan dipanggil setiap kali pengguna mencoba memasukkan karakter
+        if not self.numeric_checker(char):
+            return False
+        # Jika karakter valid, update entry
+        return True

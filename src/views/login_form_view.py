@@ -38,7 +38,7 @@ class LoginForm:
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.viewModel.loginAction(entry_1.get(), entry_2.get(), self),
+            command=lambda: self.viewModel.loginAction(entry_1.get(), entry_2.get(), self), 
             relief="flat"
         )
         button_1.place(

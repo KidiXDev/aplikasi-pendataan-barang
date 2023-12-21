@@ -7,13 +7,13 @@ import locale
 
 class MainMenuViewModels:
     def __init__(self):
-        self.db = config.dbConfig.db
+        self.db = config.dbConfig.db()
     
     def execute_query(self, query, values=None):
         cursor = self.db.cursor()
         try:
             if values:
-                cursor.execute(query, values)
+                cursor.execute(query, values) 
             else:
                 cursor.execute(query)
             self.db.commit()
@@ -79,17 +79,19 @@ class MainMenuViewModels:
             # Example: Updating the first column (ID Barang) with a new value
             query = "UPDATE data_barang SET id_barang = %s, nama_barang = %s, harga = %s, stok = %s WHERE id_barang = %s"
             values = (id_barang, nama_barang, harga, stok, tree.item(selected_item, "values")[0])
-            self.execute_query(query, values)
+            result = self.execute_query(query, values)
             self.refresh_table(tree)
             
+            if result:
+                messagebox.showinfo("Success!", "Data edited successfully")
+        else:
+            messagebox.showinfo("Error", "Please select item first")
+            
     def tree_on_double_click(self, tree, tfId, tfBarang, tfHarga, tfStok):
-        # Dapatkan item yang dipilih
         selected_item = tree.selection()
 
-        # Dapatkan data dari tiap kolom pada item yang dipilih
         item_data = tree.item(selected_item, "values")
 
-        # Set data ke Entry widgets
         tfId.delete(0, "end")
         tfId.insert(0, item_data[0])
 
@@ -105,11 +107,12 @@ class MainMenuViewModels:
         # Mengonversi ke bilangan bulat
         harga_int = int(harga_str)
 
-        # Set data ke Entry widget
-        tfHarga.delete(0, "end")
-        tfHarga.insert(0, str(harga_int).rstrip('0').rstrip('.'))
+        # Menghapus dua angka 0 terakhir
+        price = int(harga_int / 100)
 
-        
+        tfHarga.delete(0, "end")
+        tfHarga.insert(0, str(price))
+
         tfStok.delete(0, "end")
         tfStok.insert(0, item_data[3])
         
@@ -126,3 +129,9 @@ class MainMenuViewModels:
                 self.refresh_table(tree)
         else:
             messagebox.showinfo("Error", "Please select item first")
+            
+    def reset_entry(self, tfId, tfBarang, tfHarga, tfStok):
+        tfId.delete(0, "end")
+        tfBarang.delete(0, "end")
+        tfHarga.delete(0, "end")
+        tfStok.delete(0, "end")
