@@ -6,10 +6,10 @@ from tkinter import messagebox
 
 class MainMenuViewModels:
     def __init__(self):
-        self.db = config.dbConfig.db()
+        self.db = config.dbConfig.db() # inisialisasi database
         self.entryList = []
     
-    def execute_query(self, query, values=None):
+    def execute_query(self, query, values=None): # fungsi untuk mengeksekusi query
         cursor = self.db.cursor()
         try:
             if values:
@@ -35,12 +35,12 @@ class MainMenuViewModels:
         return data
 
     def format_currency(self, value):
-        # Proses mengubah format currency menjadi rupiah
+        # proses mengubah format currency menjadi rupiah
         locale.setlocale(locale.LC_ALL, 'id_ID')  # id_ID = locale 4 Indonesia
         return locale.currency(value, grouping=True, symbol='Rp')
 
     def refresh_table(self, tree: Treeview):
-        # Clear data di table yang udh ada
+        # clear data di table yang udh ada
         for item in tree.get_children():
             tree.delete(item)
 
@@ -56,7 +56,7 @@ class MainMenuViewModels:
             self.update_status_entry()
 
     def insert_data(self, tree, id_barang, nama_barang, harga, stok):
-        # Mengecek apakah ada field kosong atau tidak
+        # mengecek apakah ada field kosong atau tidak
         if not all([id_barang, nama_barang, harga, stok]):
             messagebox.showinfo("An error occured", f"Field cannot be empty")
             return
@@ -72,11 +72,9 @@ class MainMenuViewModels:
             messagebox.showinfo("Success!", "Data entered successfully")
 
     def update_data(self, tree, id_barang, nama_barang, harga, stok):
-        # Implement your logic to get updated data from user input
-        # Then update the corresponding row in the database
         selected_item = tree.selection()
         if selected_item:
-            # Example: Updating the first column (ID Barang) with a new value
+            # query untuk mengedit data barang berdasarkan id lama dan menggantinya dengan nilai baru
             query = "UPDATE data_barang SET id_barang = %s, nama_barang = %s, harga = %s, stok = %s WHERE id_barang = %s"
             values = (id_barang, nama_barang, harga, stok, tree.item(selected_item, "values")[0])
             result = self.execute_query(query, values)
@@ -87,7 +85,7 @@ class MainMenuViewModels:
         else:
             messagebox.showinfo("Error", "Please select item first")
             
-    def tree_on_double_click(self, tree, tfId, tfBarang, tfHarga, tfStok):
+    def tree_on_double_click(self, tree, tfId, tfBarang, tfHarga, tfStok): # fungsi untuk memasukkan data dari table ke entry ketika di double click
         selected_item = tree.selection()
 
         item_data = tree.item(selected_item, "values")
@@ -117,10 +115,10 @@ class MainMenuViewModels:
         tfStok.insert(0, item_data[3])
         
 
-    def delete_data(self, tree):
+    def delete_data(self, tree): # fungsi untuk menghapus data dari database
         selected_item = tree.selection()
         if selected_item:
-            # Fungsi untuk menghapus baris/row berdasarkan id barang yang dipilih
+            # fungsi untuk menghapus baris/row berdasarkan id barang yang dipilih
             result = messagebox.askokcancel("Confirmation", "Are you sure want to delete this item?")
             if result is True:
                 query = "DELETE FROM data_barang WHERE id_barang = %s"
@@ -130,7 +128,7 @@ class MainMenuViewModels:
         else:
             messagebox.showinfo("Error", "Please select item first")
             
-    def reset_entry(self, tfId, tfBarang, tfHarga, tfStok):
+    def reset_entry(self, tfId, tfBarang, tfHarga, tfStok): # fungsi untuk mereset entry
         tfId.delete(0, "end")
         tfBarang.delete(0, "end")
         tfHarga.delete(0, "end")
@@ -144,7 +142,7 @@ class MainMenuViewModels:
         total_barang, total_stok = cursor.fetchone()
         return total_barang, total_stok
     
-    def get_status_last_update(self):
+    def get_status_last_update(self): # fungsi untuk mengambil tanggal dan waktu terakhir kali table diubah
         cursor = self.db.cursor()
         query = f"SELECT MAX(UPDATE_TIME) FROM information_schema.tables WHERE TABLE_SCHEMA = 'app_pendataan' AND TABLE_NAME = 'data_barang'"
         cursor.execute(query)
@@ -155,7 +153,7 @@ class MainMenuViewModels:
 
         return formatted_last_update
     
-    def update_status_entry(self):
+    def update_status_entry(self): # fungsi untuk mengupdate status
         total_barang, total_stok = self.get_status()
         last_update = self.get_status_last_update()
         print(last_update)
@@ -163,6 +161,6 @@ class MainMenuViewModels:
         self.entryList[1].set(total_stok)
         self.entryList[2].set(last_update)
         
-    def init_update_status_entry(self, entryList):
+    def init_update_status_entry(self, entryList): # fungsi untuk inisialisasi update status
         self.entryList = entryList
         self.update_status_entry()

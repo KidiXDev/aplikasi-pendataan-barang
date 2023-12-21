@@ -1,5 +1,5 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 from view_models import login_form_view_models as lvm
 from views import main_menu_view as mainMenu
 
@@ -20,6 +20,7 @@ class LoginForm:
         self.window.title("Aplikasi Pendataan")
         self.window.geometry("1280x720")
         self.window.configure(bg = "#282727")
+        self.window.iconbitmap(OUTPUT_PATH / Path(r"..\assets\icon.ico"))
 
         canvas = Canvas(
             self.window,

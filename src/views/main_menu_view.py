@@ -1,4 +1,3 @@
-
 from pathlib import Path
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, ttk, StringVar
@@ -21,6 +20,7 @@ class MainMenu:
         self.window.title("Aplikasi Pendataan")
         self.window.geometry("1280x720")
         self.window.configure(bg = "#282727")
+        self.window.iconbitmap(OUTPUT_PATH / Path(r"..\assets\icon.ico"))
 
         self.canvas = Canvas(
             self.window,
